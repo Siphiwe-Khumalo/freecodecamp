@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Quote Machine</title>
+  <style>
+    /* Center the quote box perfectly */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f5f5f5;
+      font-family: Arial, sans-serif;
+    }
+
+    #quote-box {
+      max-width: 600px;
+      padding: 30px;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    #text {
+      font-size: 1.5em;
+      margin-bottom: 15px;
+    }
+
+    #author {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    #new-quote {
+      margin: 10px;
+      padding: 10px 15px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    #tweet-quote {
+      margin: 10px;
+      display: inline-block;
+      color: #1da1f2;
+      text-decoration: none;
+      font-size: 1em;
+    }
+
+    #tweet-quote:hover, #new-quote:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div id="quote-box"></div>
+
+  <!-- React and ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+
+  <script>
+    const quotes = [
+      { text: "The best way to predict the future is to invent it.", author: "Alan Kay" },
+      { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+      { text: "Do not let what you cannot do interfere with what you can do.", author: "John Wooden" },
+      { text: "Happiness depends upon ourselves.", author: "Aristotle" },
+      { text: "You miss 100% of the shots you don’t take.", author: "Wayne Gretzky" }
+    ];
+
+    function getRandomQuote() {
+      const index = Math.floor(Math.random() * quotes.length);
+      return quotes[index];
+    }
+
+    function RandomQuoteMachine() {
+      const [quote, setQuote] = React.useState(getRandomQuote());
+
+      function handleNewQuote() {
+        setQuote(getRandomQuote());
+      }
+
+      const tweetURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`"${quote.text}" - ${quote.author}`)}`;
+
+      return React.createElement('div', { id: 'quote-box' },
+        React.createElement('p', { id: 'text' }, `"${quote.text}"`),
+        React.createElement('p', { id: 'author' }, `- ${quote.author}`),
+        React.createElement('button', { id: 'new-quote', onClick: handleNewQuote }, 'New Quote'),
+        React.createElement('a', { id: 'tweet-quote', href: tweetURL, target: '_blank' }, 'Tweet Quote')
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('quote-box'));
+    root.render(React.createElement(RandomQuoteMachine));
+  </script>
+</body>
+</html>
